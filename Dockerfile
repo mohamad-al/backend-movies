@@ -17,10 +17,14 @@ ENV PYTHONUNBUFFERED 1
 RUN pip install --upgrade pip  
 
 # copy whole project to your docker home directory. 
-COPY . $DockerHOME  
+COPY . $DockerHOME
 
 # run this command to install all dependencies  
 RUN pip install -r requirements.txt  
 
-# start server  
-CMD ["python", "backend/manage.py", "runserver", "0.0.0.0:8000"]
+ARG port=8000
+
+ENV PORT $port
+
+# start server
+CMD python backend/manage.py runserver 0.0.0.0:$PORT
